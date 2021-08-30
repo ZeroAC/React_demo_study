@@ -25,11 +25,13 @@ function App() {
       day: "2021-8-27",
       reminder: true,
     },
-  ]);
+  ])
+  // 控制添加表单显示与否
+  const [showAddTask,setShowAddTask] = useState(false)
   // Delete Task
   const deleteTask = (id) => {
     setTasks(tasks.filter((task) => task.id !== id));
-  };
+  }
   //Toggle reminder
   const toggleReminder = (id) => {
     setTasks(
@@ -46,8 +48,8 @@ function App() {
   return (
     <div className="container">
       {/* 注意 必须要包裹在一个父元素内 */}
-      <Header />
-      <AddTask onAdd = {addTask}/>
+      <Header onAdd = {()=>{setShowAddTask(!showAddTask)}} showAdd = {showAddTask}/>
+      {showAddTask && <AddTask onAdd = {addTask}/>}
       <Tasks
         tasks={tasks}
         onDeleteTask={deleteTask}
