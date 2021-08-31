@@ -3,12 +3,12 @@ import { AiTwotoneDelete } from "react-icons/ai";/* install icon > npm install r
 
 const Task = ({ task, onDeleteTask, onToggleReminder }) => {
   return (
-    <div className={`task ${task.reminder ? 'reminder':''}`} onDoubleClick={()=>onToggleReminder(task.id)}>
+    <div className={`task ${task.reminder ? 'reminder':''}`} onDoubleClick={()=>onToggleReminder(task._id)}>
       <h3>
         {task.text}
         <AiTwotoneDelete
           style={{ color: "red", cursor: "pointer" }}
-          onClick={() => onDeleteTask(task.id)}
+          onClick={() => onDeleteTask(task._id)}
         />
       </h3>
       <p>{task.day}</p>

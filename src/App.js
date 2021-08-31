@@ -3,47 +3,73 @@ import './App.css'
 import Header from './components/Header'
 import Tasks from './components/Tasks'
 import AddTask from './components/AddTask' 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function App() {
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      text: "zero ac",
-      day: "2021-8-29",
-      reminder: true,
-    },
-    {
-      id: 2,
-      text: "hello kitty",
-      day: "2021-8-28",
-      reminder: true,
-    },
-    {
-      id: 3,
-      text: "wrong study nlp",
-      day: "2021-8-27",
-      reminder: true,
-    },
-  ])
+  const [tasks, setTasks] = useState([])
+
+  //从后端加载初始的数据 副作用 不依赖于任何 为[] 故只会运行一次
+  useEffect(()=>{
+    const getTasks = async ()=>{
+      const data = await fetchTasks()
+      setTasks(data);
+    }
+    getTasks()
+  },[])
+
+  // fetch tasks
+  const fetchTasks = async ()=>{
+    const res = await fetch('https://qcs8vh.fn.thelarkcloud.com/tasks')
+    const data = await res.json()
+    console.log(data.result)
+    return data.result
+  }
+
   // 控制添加表单显示与否
   const [showAddTask,setShowAddTask] = useState(false)
+
   // Delete Task
-  const deleteTask = (id) => {
-    setTasks(tasks.filter((task) => task.id !== id));
+  const deleteTask = async (id) => {
+    setTasks(tasks.filter((task) => task._id !== id));
+    const res = await fetch('https://qcs8vh.fn.thelarkcloud.com/del',{
+      headers: {
+        'content-type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify({_id:id})
+    })
+    console.log(res)
   }
+
   //Toggle reminder
-  const toggleReminder = (id) => {
+  const toggleReminder = async (id) => {
     setTasks(
       tasks.map((task) =>
-        task.id === id ? { ...task, reminder: !task.reminder } : task
+        task._id === id ? { ...task, reminder: !task.reminder } : task
       )
     );
+    const res = await fetch('https://qcs8vh.fn.thelarkcloud.com/alter',{
+      headers: {
+        'content-type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify({_id:id})
+    })
+    console.log(res)
   };
+
   //AddTask
-  const addTask = (task) => {
-      let newTask = {id:Math.floor(Math.random()*1000)+1,...task }
-      setTasks([...tasks,newTask])
+  const addTask = async (task) => {
+      const res = await fetch('https://qcs8vh.fn.thelarkcloud.com/add',{
+        headers: {
+          'content-type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify({text:task.text,day:task.day,reminder:task.reminder})
+      })
+      const data = await res.json();
+      console.log(data);
+      setTasks([...tasks,data.result])
   }
   return (
     <div className="container">

@@ -4,7 +4,7 @@ const Tasks = ({ tasks, onDeleteTask, onToggleReminder }) => {
     <>
       {tasks.length ? tasks.map((item) => (
         <Task
-          key={item.id}
+          key={item._id}
           task={item}
           onDeleteTask={onDeleteTask}
           onToggleReminder={onToggleReminder}
