@@ -1,14 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
-const Button = ({ color, text, handleClick }) => {
+import ButtonME from '@material-ui/core/Button';
+import AddBoxIcon from '@material-ui/icons/AddBox';
+import CancelPresentationIcon from '@material-ui/icons/CancelPresentation';
+const Button = ({ showAdd, handleClick }) => {
   return (
-    <button
-      style={{ backgroundColor: color }}
-      className="btn"
+    <ButtonME
+      variant = "contained"
+      color = {showAdd ? 'warning':'primary'}
+      startIcon = {showAdd ? <CancelPresentationIcon /> : <AddBoxIcon />}
+      size = "medium"
       onClick={handleClick}
     >
-      {text}
-    </button>
+      {showAdd ? 'Cancel':'ADD'}
+    </ButtonME>
   );
 };
 Button.defaultProps = {

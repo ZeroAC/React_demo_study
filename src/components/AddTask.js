@@ -1,44 +1,31 @@
-import { useState } from 'react'
-
-const AddTask = ({onAdd}) => {
-  const [text, setText] = useState('')
-  const [day, setDay] = useState('')
-  const [reminder, setReminder] = useState(false)
+import { useState } from "react";
+import TextField from "@material-ui/core/TextField";
+const AddTask = ({ onAdd }) => {
+  const [text, setText] = useState("");
+  const [day, setDay] = useState("");
+  const [reminder, setReminder] = useState(false);
 
   const onSubmit = (e) => {
-    e.preventDefault()
-
+    e.preventDefault();
     if (!text) {
-      alert('Please add a task')
-      return
+      alert("Please add a task");
+      return;
     }
 
-    onAdd({ text, day, reminder })
+    onAdd({ text, day, reminder });
 
-    setText('')
-    setDay('')
-    setReminder(false)
-  }
+    setText("");
+    setDay("");
+    setReminder(false);
+  };
   return (
     <form className="add-form" onSubmit={onSubmit}>
-      <div className="form-control">
-        <label>Task</label>
-        <input
-          type="text"
-          placeholder="Add Task"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-        />
-      </div>
-      <div className="form-control">
-        <label>Day & Time</label>
-        <input
-          type="text"
-          placeholder="Add Day & Time"
-          value={day}
-          onChange={(e) => setDay(e.target.value)}
-        />
-      </div>
+      <TextField id="filled-basic" label="Task title" variant="outlined" fullWidth="true" margin="dense" value={text}
+          onChange={(e) => setText(e.target.value)} />
+      
+      <TextField id="filled-basic" label="time" variant="outlined" margin="dense" fullWidth="true" value={day}
+    onChange={(e) => setDay(e.target.value)}/>
+  
       <div className="form-control form-control-check">
         <label>Set Reminder</label>
         <input

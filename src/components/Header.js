@@ -6,7 +6,7 @@ const Header = ({title,onAdd,showAdd}) => {
     return (
         <header className="header">
             <h1>{title}</h1>
-            <Button handleClick = {onAdd} color={showAdd?'red':'blue'} text={showAdd?'Cancel':'ADD'}/>
+            <Button handleClick = {onAdd} showAdd = {showAdd}/>
         </header>
     )
 }
